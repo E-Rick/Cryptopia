@@ -22,7 +22,7 @@ export const LinkQuery = extendType({
 		t.nonNull.list.nonNull.field('feed', {
 			type: 'Link',
 			resolve(parent, args, context, info) {
-				return links;
+				return context.prisma.link.findMany();
 			},
 		});
 
@@ -51,16 +51,14 @@ export const LinkMutation = extendType({
 			},
 
 			resolve(parent, args, context) {
-				const { description, url } = args;
+				const newLink = context.prisma.link.create({
+					data: {
+						description: args.description,
+						url: args.url,
+					},
+				});
 
-				let idCount = links.length + 1; //5
-				const link = {
-					id: idCount,
-					description: description,
-					url: url,
-				};
-				links.push(link);
-				return link;
+				return newLink;
 			},
 		});
 
@@ -74,19 +72,16 @@ export const LinkMutation = extendType({
 			},
 
 			resolve(_, args, context) {
-				const { id, description, url } = args;
-
-				let link = links[id - 1];
-
-				// check if description or url exists
-				link = {
-					id: link.id,
-					description: args.description || link.description,
-					url: args.url || link.url,
-				};
-				links[id] = link;
-
-				return link;
+				const updatedLink = context.prisma.link.update({
+					where: {
+						id: args.id,
+					},
+					data: {
+						description: args.description || undefined,
+						url: args.url || undefined,
+					},
+				});
+				return updatedLink;
 			},
 		});
 
@@ -98,9 +93,12 @@ export const LinkMutation = extendType({
 			},
 
 			resolve(_, args, context) {
-				const link = links[args.id - 1];
-				links.splice(args.id - 1, 1);
-				return link;
+				const deletedLink = context.prisma.link.delete({
+					where: {
+						id: args.id,
+					},
+				});
+				return deletedLink;
 			},
 		});
 	},

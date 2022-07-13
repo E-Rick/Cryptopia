@@ -5,6 +5,13 @@ export const Link = objectType({
 	name: 'Link',
 	definition(t) {
 		t.nonNull.int('id'), t.nonNull.string('description'), t.nonNull.string('url');
+		t.field('postedBy', {
+			type: 'User',
+			resolve(parent, args, context) {
+				// fetch the link record using findUnique and the associated user relation who posted by chaining postedBy()
+				return context.prisma.link.findUnique({ where: { id: parent.id } }).postedBy();
+			},
+		});
 	},
 });
 

@@ -30,6 +30,8 @@ export const LinkQuery = extendType({
 			type: 'Link',
 			args: {
 				filter: stringArg(),
+				skip: intArg(),
+				take: intArg(),
 			},
 			resolve(_, args, context) {
 				// filter is optional. it can be omitted to skip filtering
@@ -40,6 +42,9 @@ export const LinkQuery = extendType({
 					: {};
 				return context.prisma.link.findMany({
 					where,
+					// type casting is needed because of type mismatch between Nexus gen type (number | undefined | null) and type expected by Prisma (number | undefined)
+					skip: args?.skip as number | undefined,
+					take: args?.take as number | undefined,
 				});
 			},
 		});

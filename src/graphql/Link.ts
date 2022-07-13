@@ -28,7 +28,7 @@ export const LinkQuery = extendType({
 	definition(t) {
 		t.nonNull.list.nonNull.field('feed', {
 			type: 'Link',
-			resolve(parent, args, context, info) {
+			resolve(parent, args, context) {
 				return context.prisma.link.findMany();
 			},
 		});
@@ -49,6 +49,7 @@ export const LinkMutation = extendType({
 	type: 'Mutation', // extend Mutation type to add new root field
 	definition(t) {
 		// Post a new link
+		// -----------
 		t.nonNull.field('post', {
 			// the name of the mutation defined as post and returns non nullable link object
 			type: 'Link',
@@ -58,10 +59,18 @@ export const LinkMutation = extendType({
 			},
 
 			resolve(parent, args, context) {
+				const { description, url } = args;
+				const { userId } = context;
+
+				// if user doesn't exist in the context, throw error. only authorized users can post new links
+				if (!userId) throw new Error('Cannot post without logging in');
+
+				// connect User to the Link postedBy field (rep Link to User relation)
 				const newLink = context.prisma.link.create({
 					data: {
-						description: args.description,
-						url: args.url,
+						description,
+						url,
+						postedBy: { connect: { id: userId } },
 					},
 				});
 

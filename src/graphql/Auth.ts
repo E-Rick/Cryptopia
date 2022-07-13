@@ -1,4 +1,4 @@
-import { extendType, nonNull, objectType, stringArg } from 'Nexus';
+import { extendType, nonNull, objectType, stringArg } from 'nexus';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 

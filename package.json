@@ -12,6 +12,8 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
+		"@types/bcryptjs": "~2.4.0",
+		"@types/jsonwebtoken": "~8.5.0",
 		"@types/node": "^18.0.3",
 		"prisma": "4.1.0-dev.54",
 		"ts-node": "^10.8.2",
@@ -21,7 +23,9 @@
 	"dependencies": {
 		"@prisma/client": "4",
 		"apollo-server": "^3.1.1",
+		"bcryptjs": "~2.4.0",
 		"graphql": "^15.8.0",
+		"jsonwebtoken": "~8.5.0",
 		"nexus": "^1.1.0"
 	}
 }

@@ -1,4 +1,15 @@
-import { extendType, objectType, nonNull, stringArg, intArg, arg } from 'nexus';
+import {
+	extendType,
+	objectType,
+	nonNull,
+	stringArg,
+	intArg,
+	arg,
+	inputObjectType,
+	enumType,
+	list,
+} from 'nexus';
+import { Prisma } from '@prisma/client';
 
 export const Link = objectType({
 	name: 'Link',
@@ -32,6 +43,7 @@ export const LinkQuery = extendType({
 				filter: stringArg(),
 				skip: intArg(),
 				take: intArg(),
+				orderBy: arg({ type: list(nonNull(LinkOrderByInput)) }),
 			},
 			resolve(_, args, context) {
 				// filter is optional. it can be omitted to skip filtering
@@ -45,6 +57,9 @@ export const LinkQuery = extendType({
 					// type casting is needed because of type mismatch between Nexus gen type (number | undefined | null) and type expected by Prisma (number | undefined)
 					skip: args?.skip as number | undefined,
 					take: args?.take as number | undefined,
+					orderBy: args?.orderBy as
+						| Prisma.Enumerable<Prisma.LinkOrderByWithRelationInput>
+						| undefined,
 				});
 			},
 		});
@@ -134,4 +149,22 @@ export const LinkMutation = extendType({
 			},
 		});
 	},
+});
+
+/**
+ * LinkOrderByInput represents the criteria by which Link elements can be sorted. Sort enum defines sorting order
+ */
+export const LinkOrderByInput = inputObjectType({
+	name: 'LinkOrderByInput',
+	definition(t) {
+		t.field('description', { type: Sort });
+		t.field('url', { type: Sort });
+		t.field('createdAt', { type: Sort });
+	},
+});
+
+// Ordering options for sorting
+export const Sort = enumType({
+	name: 'Sort',
+	members: ['asc', 'desc'],
 });

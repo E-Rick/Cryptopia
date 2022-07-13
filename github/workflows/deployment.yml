@@ -1,0 +1,23 @@
+name: deploy-cryptopia-app-heroku # name of workflow
+
+on:
+  push:
+    branches: # branches that trigger workflow to run
+      - master
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # checksout repo to runner so workflow can run it
+      - run: npm ci # execute shell commands on runner. ci similar to npm install
+      - name: Run production migration
+        run: npm run migrate:deploy # sync database changes to production
+        env: # provide database connection to runner
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - uses: akhileshns/heroku-deploy@v3.12.12 # action to deploy final code to heroku
+        with: # with keyword to pass certain params to action
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}

@@ -1,10 +1,10 @@
 import { extendType, objectType, nonNull, stringArg, intArg, arg } from 'nexus';
-import { NexusGenObjects } from '../../nexus-typegen';
 
 export const Link = objectType({
 	name: 'Link',
 	definition(t) {
 		t.nonNull.int('id'), t.nonNull.string('description'), t.nonNull.string('url');
+		t.nonNull.dateTime('createdAt');
 		t.field('postedBy', {
 			type: 'User',
 			resolve(parent, args, context) {
@@ -15,19 +15,13 @@ export const Link = objectType({
 		t.nonNull.list.nonNull.field('voters', {
 			type: 'User',
 			resolve(parent, __, context) {
-				return context.prisma.link.findUnique({ where: { id: parent.id } }).votes();
+				return context.prisma.link.findUnique({ where: { id: parent.id } }).voters();
 			},
 		});
 	},
 });
 
 //  Implement feed query
-
-let links: NexusGenObjects['Link'][] = [
-	{ id: 1, url: 'www.howtographql.com', description: 'fullstack tutorial for GraphQl' },
-	{ id: 2, url: 'www.graphql.org', description: 'fullstack tutorial for GraphQl' },
-];
-
 // Query: {feed: [Link!]!}
 export const LinkQuery = extendType({
 	type: 'Query',

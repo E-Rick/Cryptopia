@@ -7,6 +7,7 @@ specifiers:
   '@types/jsonwebtoken': ~8.5.0
   '@types/node': ^18.0.3
   apollo-server: ^3.1.1
+  apollo-server-core: ^3.10.0
   bcryptjs: ~2.4.0
   graphql: ^15.8.0
   graphql-scalars: ^1.14.1
@@ -20,6 +21,7 @@ specifiers:
 dependencies:
   '@prisma/client': 4.0.0_prisma@4.1.0-dev.54
   apollo-server: 3.10.0_graphql@15.8.0
+  apollo-server-core: 3.10.0_graphql@15.8.0
   bcryptjs: 2.4.3
   graphql: 15.8.0
   graphql-scalars: 1.17.0_graphql@15.8.0

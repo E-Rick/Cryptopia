@@ -37,22 +37,23 @@ export const Link = objectType({
 export const LinkQuery = extendType({
 	type: 'Query',
 	definition(t) {
-		t.nonNull.list.nonNull.field('feed', {
-			type: 'Link',
+		t.nonNull.field('feed', {
+			type: 'Feed',
 			args: {
 				filter: stringArg(),
 				skip: intArg(),
 				take: intArg(),
 				orderBy: arg({ type: list(nonNull(LinkOrderByInput)) }),
 			},
-			resolve(_, args, context) {
+			async resolve(_, args, context) {
 				// filter is optional. it can be omitted to skip filtering
 				const where = args.filter
 					? {
 							OR: [{ description: { contains: args.filter } }, { url: { contains: args.filter } }],
 					  }
 					: {};
-				return context.prisma.link.findMany({
+
+				const links = await context.prisma.link.findMany({
 					where,
 					// type casting is needed because of type mismatch between Nexus gen type (number | undefined | null) and type expected by Prisma (number | undefined)
 					skip: args?.skip as number | undefined,
@@ -61,6 +62,17 @@ export const LinkQuery = extendType({
 						| Prisma.Enumerable<Prisma.LinkOrderByWithRelationInput>
 						| undefined,
 				});
+
+				// use Prisma `count` API to return number of records in the database that match current filter cond.
+				const count = await context.prisma.link.count({ where });
+				// generate unique id for feed query to ensure that for diff args, feed query always generates diff and unique identifiers
+				const id = 'main-feed:${JSON.stringify(args)}';
+
+				return {
+					links,
+					count,
+					id,
+				};
 			},
 		});
 
@@ -167,4 +179,13 @@ export const LinkOrderByInput = inputObjectType({
 export const Sort = enumType({
 	name: 'Sort',
 	members: ['asc', 'desc'],
+});
+
+export const Feed = objectType({
+	name: 'Feed',
+	definition(t) {
+		t.nonNull.list.nonNull.field('links', { type: Link });
+		t.nonNull.int('count');
+		t.id('id');
+	},
 });

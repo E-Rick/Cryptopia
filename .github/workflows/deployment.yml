@@ -9,11 +9,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2 # checksout repo to runner so workflow can run it
-      - run: npm ci # execute shell commands on runner. ci similar to npm install
+
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 6.0.2
+
+      - run: pnpm ci # execute shell commands on runner. ci similar to npm install
       - name: Run production migration
-        run: npm run migrate:deploy # sync database changes to production
+        run: pnpm run migrate:deploy # sync database changes to production
         env: # provide database connection to runner
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - uses: akhileshns/heroku-deploy@v3.12.12 # action to deploy final code to heroku

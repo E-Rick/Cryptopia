@@ -57,20 +57,20 @@ export const AuthMutation = extendType({
 						{
 							payload: {
 								id: user.id,
-								address: user.address,
+								address: user.address as string | undefined,
 							},
 						},
 						'SUPER_SECRET',
 						{
 							algorithm: 'HS256',
-							subject: user.address,
+							subject: user.address as string | undefined,
 							expiresIn: '1d',
 						}
 					);
 
 					// Update the user model with the JWT and new nonce
-					user = await ctx.prisma.user.update({
-						where: { address },
+					const updatedUser = await ctx.prisma.user.update({
+						where: { address: args.address },
 						data: { token, nonce },
 					});
 					console.log('🚀 ~ file: Auth.ts ~ line 82 ~ resolve ~ user', user);
@@ -79,7 +79,7 @@ export const AuthMutation = extendType({
 						code: '200',
 						success: true,
 						message: `Successfully logged in user for wallet address ${address}`,
-						user: user,
+						user: updatedUser,
 					};
 				}
 				// Failed login

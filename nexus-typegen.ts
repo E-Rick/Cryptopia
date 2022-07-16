@@ -80,7 +80,7 @@ export interface NexusGenObjects {
     bio?: string | null; // String
     coverImageUrl?: string | null; // String
     email?: string | null; // String
-    id: string; // ID!
+    id: number; // Int!
     name?: string | null; // String
     nonce?: number | null; // Int
     profileImageUrl?: string | null; // String
@@ -147,7 +147,7 @@ export interface NexusGenFieldTypes {
     bio: string | null; // String
     coverImageUrl: string | null; // String
     email: string | null; // String
-    id: string; // ID!
+    id: number; // Int!
     links: NexusGenRootTypes['Link'][]; // [Link!]!
     name: string | null; // String
     nonce: number | null; // Int
@@ -210,7 +210,7 @@ export interface NexusGenFieldTypeNames {
     bio: 'String'
     coverImageUrl: 'String'
     email: 'String'
-    id: 'ID'
+    id: 'Int'
     links: 'Link'
     name: 'String'
     nonce: 'Int'

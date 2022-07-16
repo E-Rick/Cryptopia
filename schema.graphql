@@ -99,7 +99,7 @@ type User {
   email: String
 
   """the user's id index"""
-  id: ID!
+  id: Int!
   links: [Link!]!
 
   """the user's name"""

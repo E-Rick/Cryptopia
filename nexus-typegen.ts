@@ -50,9 +50,11 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  AuthPayload: { // root type
-    token: string; // String!
-    user: NexusGenRootTypes['User']; // User!
+  AuthMutationResponse: { // root type
+    code: string; // String!
+    message: string; // String!
+    nonce?: number | null; // Int
+    success: boolean; // Boolean!
   }
   Feed: { // root type
     count: number; // Int!
@@ -65,12 +67,25 @@ export interface NexusGenObjects {
     id: number; // Int!
     url: string; // String!
   }
+  LoginMutationResponse: { // root type
+    code: string; // String!
+    message: string; // String!
+    success: boolean; // Boolean!
+    user?: NexusGenRootTypes['User'] | null; // User
+  }
   Mutation: {};
   Query: {};
   User: { // root type
-    email: string; // String!
-    id: number; // Int!
-    name: string; // String!
+    address: string; // String!
+    bio?: string | null; // String
+    coverImageUrl?: string | null; // String
+    email?: string | null; // String
+    id: string; // ID!
+    name?: string | null; // String
+    nonce?: number | null; // Int
+    profileImageUrl?: string | null; // String
+    token?: string | null; // String
+    username?: string | null; // String
   }
   Vote: { // root type
     link: NexusGenRootTypes['Link']; // Link!
@@ -79,19 +94,22 @@ export interface NexusGenObjects {
 }
 
 export interface NexusGenInterfaces {
+  MutationResponse: NexusGenRootTypes['AuthMutationResponse'] | NexusGenRootTypes['LoginMutationResponse'];
 }
 
 export interface NexusGenUnions {
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenInterfaces & NexusGenObjects
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  AuthPayload: { // field return type
-    token: string; // String!
-    user: NexusGenRootTypes['User']; // User!
+  AuthMutationResponse: { // field return type
+    code: string; // String!
+    message: string; // String!
+    nonce: number | null; // Int
+    success: boolean; // Boolean!
   }
   Feed: { // field return type
     count: number; // Int!
@@ -106,11 +124,17 @@ export interface NexusGenFieldTypes {
     url: string; // String!
     voters: NexusGenRootTypes['User'][]; // [User!]!
   }
+  LoginMutationResponse: { // field return type
+    code: string; // String!
+    message: string; // String!
+    success: boolean; // Boolean!
+    user: NexusGenRootTypes['User'] | null; // User
+  }
   Mutation: { // field return type
+    auth: NexusGenRootTypes['AuthMutationResponse']; // AuthMutationResponse!
     deleteLink: NexusGenRootTypes['Link']; // Link!
-    login: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+    login: NexusGenRootTypes['LoginMutationResponse']; // LoginMutationResponse!
     post: NexusGenRootTypes['Link']; // Link!
-    signup: NexusGenRootTypes['AuthPayload']; // AuthPayload!
     updateLink: NexusGenRootTypes['Link']; // Link!
     vote: NexusGenRootTypes['Vote'] | null; // Vote
   }
@@ -119,22 +143,36 @@ export interface NexusGenFieldTypes {
     link: NexusGenRootTypes['Link'] | null; // Link
   }
   User: { // field return type
-    email: string; // String!
-    id: number; // Int!
+    address: string; // String!
+    bio: string | null; // String
+    coverImageUrl: string | null; // String
+    email: string | null; // String
+    id: string; // ID!
     links: NexusGenRootTypes['Link'][]; // [Link!]!
-    name: string; // String!
+    name: string | null; // String
+    nonce: number | null; // Int
+    profileImageUrl: string | null; // String
+    token: string | null; // String
+    username: string | null; // String
     votes: NexusGenRootTypes['Link'][]; // [Link!]!
   }
   Vote: { // field return type
     link: NexusGenRootTypes['Link']; // Link!
     user: NexusGenRootTypes['User']; // User!
   }
+  MutationResponse: { // field return type
+    code: string; // String!
+    message: string; // String!
+    success: boolean; // Boolean!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
-  AuthPayload: { // field return type name
-    token: 'String'
-    user: 'User'
+  AuthMutationResponse: { // field return type name
+    code: 'String'
+    message: 'String'
+    nonce: 'Int'
+    success: 'Boolean'
   }
   Feed: { // field return type name
     count: 'Int'
@@ -149,11 +187,17 @@ export interface NexusGenFieldTypeNames {
     url: 'String'
     voters: 'User'
   }
+  LoginMutationResponse: { // field return type name
+    code: 'String'
+    message: 'String'
+    success: 'Boolean'
+    user: 'User'
+  }
   Mutation: { // field return type name
+    auth: 'AuthMutationResponse'
     deleteLink: 'Link'
-    login: 'AuthPayload'
+    login: 'LoginMutationResponse'
     post: 'Link'
-    signup: 'AuthPayload'
     updateLink: 'Link'
     vote: 'Vote'
   }
@@ -162,35 +206,45 @@ export interface NexusGenFieldTypeNames {
     link: 'Link'
   }
   User: { // field return type name
+    address: 'String'
+    bio: 'String'
+    coverImageUrl: 'String'
     email: 'String'
-    id: 'Int'
+    id: 'ID'
     links: 'Link'
     name: 'String'
+    nonce: 'Int'
+    profileImageUrl: 'String'
+    token: 'String'
+    username: 'String'
     votes: 'Link'
   }
   Vote: { // field return type name
     link: 'Link'
     user: 'User'
   }
+  MutationResponse: { // field return type name
+    code: 'String'
+    message: 'String'
+    success: 'Boolean'
+  }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
+    auth: { // args
+      address: string; // String!
+    }
     deleteLink: { // args
       id: number; // Int!
     }
     login: { // args
-      email: string; // String!
-      password: string; // String!
+      address: string; // String!
+      signature: string; // String!
     }
     post: { // args
       description: string; // String!
       url: string; // String!
-    }
-    signup: { // args
-      email: string; // String!
-      name: string; // String!
-      password: string; // String!
     }
     updateLink: { // args
       description?: string | null; // String
@@ -215,9 +269,12 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  MutationResponse: "AuthMutationResponse" | "LoginMutationResponse"
 }
 
 export interface NexusGenTypeInterfaces {
+  AuthMutationResponse: "MutationResponse"
+  LoginMutationResponse: "MutationResponse"
 }
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
@@ -226,7 +283,7 @@ export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 
-export type NexusGenInterfaceNames = never;
+export type NexusGenInterfaceNames = keyof NexusGenInterfaces;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
@@ -234,7 +291,7 @@ export type NexusGenUnionNames = never;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = never;
+export type NexusGenAbstractsUsingStrategyResolveType = "MutationResponse";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

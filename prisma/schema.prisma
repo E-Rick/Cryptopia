@@ -23,10 +23,17 @@ model Link {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  links    Link[] @relation(name: "PostedBy")
-  votes    Link[] @relation(name: "Votes")
+  id              Int     @id @default(autoincrement())
+  address         String  @unique
+  username        String? @unique
+  email           String? @unique
+  name            String?
+  bio             String?
+  profileImageUrl String?
+  coverImageUrl   String?
+  website         String?
+  nonce           Int
+  token           String?
+  links           Link[]  @relation(name: "PostedBy")
+  votes           Link[]  @relation(name: "Votes")
 }

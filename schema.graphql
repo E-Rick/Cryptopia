@@ -2,9 +2,16 @@
 ### Do not make changes to this file directly
 
 
-type AuthPayload {
-  token: String!
-  user: User!
+type AuthMutationResponse implements MutationResponse {
+  """Similar to HTTP status, represents the status of the mutation"""
+  code: String!
+
+  """Human-readable message for the UI"""
+  message: String!
+  nonce: Int
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
 }
 
 """
@@ -33,13 +40,39 @@ input LinkOrderByInput {
   url: Sort
 }
 
+type LoginMutationResponse implements MutationResponse {
+  """Similar to HTTP status, represents the status of the mutation"""
+  code: String!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
+  user: User
+}
+
 type Mutation {
+  """
+  Check if the user with the current public Address exists in the database
+  """
+  auth(address: String!): AuthMutationResponse!
   deleteLink(id: Int!): Link!
-  login(email: String!, password: String!): AuthPayload!
+  login(address: String!, signature: String!): LoginMutationResponse!
   post(description: String!, url: String!): Link!
-  signup(email: String!, name: String!, password: String!): AuthPayload!
   updateLink(description: String, id: Int!, url: String): Link!
   vote(linkId: Int!): Vote
+}
+
+interface MutationResponse {
+  """Similar to HTTP status, represents the status of the mutation"""
+  code: String!
+
+  """Human-readable message for the UI"""
+  message: String!
+
+  """Indicates whether the mutation was successful"""
+  success: Boolean!
 }
 
 type Query {
@@ -53,10 +86,36 @@ enum Sort {
 }
 
 type User {
-  email: String!
-  id: Int!
+  """the user's unique public wallet address"""
+  address: String!
+
+  """the user's bio description"""
+  bio: String
+
+  """the user's cover image url"""
+  coverImageUrl: String
+
+  """the user's email"""
+  email: String
+
+  """the user's id index"""
+  id: ID!
   links: [Link!]!
-  name: String!
+
+  """the user's name"""
+  name: String
+
+  """the user's generated nonce for wallet authentication"""
+  nonce: Int
+
+  """the user's profile image url"""
+  profileImageUrl: String
+
+  """the user's jwt authentication token for sesson data"""
+  token: String
+
+  """the user's unique username"""
+  username: String
   votes: [Link!]!
 }
 

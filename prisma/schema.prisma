@@ -24,7 +24,7 @@ model Link {
 
 model User {
   id              Int     @id @default(autoincrement())
-  address         String  @unique
+  address         String? @unique
   username        String? @unique
   email           String? @unique
   name            String?

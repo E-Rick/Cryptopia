@@ -1,8 +1,8 @@
 {
-	"name": "afrokans-typescript",
+	"name": "cryptopia",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "index.ts",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",
@@ -13,7 +13,7 @@
 		"start": "node dist/src/index.js"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Erick Martinez Jr.",
 	"license": "ISC",
 	"devDependencies": {
 		"@types/bcryptjs": "~2.4.0",

@@ -1,7 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 
-export const APP_SECRET = 'GraphQL-is-aw3some';
-
+export const APP_SECRET = process.env.APP_SECRET || '';
 // Based on the shape of the JWT token issued during signup and login. When server decodes an issued token, it expects it in this format.
 export interface AuthTokenPayload {
 	userId: number;

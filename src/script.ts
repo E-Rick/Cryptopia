@@ -7,7 +7,7 @@ async function main() {
 	// create new link
 	const newLink = await prisma.link.create({
 		data: {
-			description: 'the gawd',
+			description: 'playful polymath',
 			url: 'www.erickmartinezjr.com',
 		},
 	});

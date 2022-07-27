@@ -1,11 +1,11 @@
 import { extendType, interfaceType, nonNull, objectType, stringArg } from 'nexus';
 import * as jwt from 'jsonwebtoken';
 
-import { APP_SECRET } from '../utils/auth';
 import { bufferToHex } from 'ethereumjs-util';
 import { recoverPersonalSignature } from '@metamask/eth-sig-util';
 import { ethers } from 'ethers';
 import { User } from './User';
+import { APP_SECRET } from '../utils/auth';
 
 export const AuthMutation = extendType({
 	type: 'Mutation',
@@ -60,7 +60,7 @@ export const AuthMutation = extendType({
 								address: user.address as string | undefined,
 							},
 						},
-						'SUPER_SECRET',
+						APP_SECRET,
 						{
 							algorithm: 'HS256',
 							subject: user.address as string | undefined,

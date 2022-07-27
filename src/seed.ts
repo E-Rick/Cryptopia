@@ -18,7 +18,7 @@ const userData: Prisma.UserCreateInput[] = [
 	},
 	{
 		name: 'Nile',
-		email: 'nile@eternal.plus',
+		email: 'nile@wrecs.sudio',
 		username: 'nile',
 		profileImageUrl:
 			'https://gateway.pinata.cloud/ipfs/QmQxFznXuWMfEesBoK1j1Vm7rgesWvoKvGcX4Y3dDvVG4C',

@@ -1,1 +1,1 @@
-# graphql-typescript-template
+# cryptopia

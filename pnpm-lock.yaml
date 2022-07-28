@@ -26,6 +26,7 @@ dependencies:
   '@prisma/client': 4.0.0_prisma@4.0.0
   apollo-server: 3.10.0_graphql@16.5.0
   apollo-server-core: 3.10.0_graphql@16.5.0
+  dotenv: 16.0.1
   ethereumjs-util: 7.1.5
   ethers: 5.5.1
   graphql: 16.5.0
@@ -38,7 +39,6 @@ devDependencies:
   '@types/express': 4.17.13
   '@types/jsonwebtoken': 8.5.8
   '@types/node': 18.0.5
-  dotenv: 16.0.1
   prisma: 4.0.0
   ts-node: 10.9.1_47blntjhuqtdxyxfczkfdvsynq
   ts-node-dev: 1.1.8_typescript@4.7.4
@@ -1146,7 +1146,7 @@ packages:
   /dotenv/16.0.1:
     resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
     engines: {node: '>=12'}
-    dev: true
+    dev: false
 
   /dynamic-dedupe/0.3.0:
     resolution: {integrity: sha512-ssuANeD+z97meYOqd50e04Ze5qp4bPqo8cCkI4TRjZkzAUgIDTrXV1R8QCdINpiI+hw14+rYazvTRdQrz0/rFQ==}

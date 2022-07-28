@@ -2,7 +2,10 @@ import { ApolloServer } from 'apollo-server';
 import { context } from './context';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import * as dotenv from 'dotenv';
-dotenv.config();
+
+if (process.env.NODE_ENV !== 'production') {
+	dotenv.config();
+}
 
 // 1
 import { schema } from './schema';

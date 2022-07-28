@@ -99,43 +99,43 @@ export const AuthMutation = extendType({
 				address: nonNull(stringArg()),
 			},
 			async resolve(_, args, ctx) {
-				try {
-					// Checks for existing user in the database and creates account if not found
-					// const address = ctx && ctx.user ? ctx.user.address : args.address;
+				// try {
+				// Checks for existing user in the database and creates account if not found
+				// const address = ctx && ctx.user ? ctx.user.address : args.address;
 
-					// Search for existing user in the database
-					let user = await ctx.prisma.user.findUnique({ where: { address: args.address } });
+				// Search for existing user in the database
+				let user = await ctx.prisma.user.findUnique({ where: { address: args.address } });
 
-					// User not found, so create the new user account and generate the nonce
-					if (!user) {
-						user = await ctx.prisma.user.create({
-							data: {
-								address: args.address,
-								nonce: Math.floor(Math.random() * 1000000), // initialize with a random nonce
-							},
-						});
-						return {
-							code: '201',
-							success: true,
-							message: `Successfully created new account for: ${args.address}`,
-							nonce: user.nonce as number,
-						};
-					}
-
-					// Return user's nonce (didn't create new acc)
+				// User not found, so create the new user account and generate the nonce
+				if (!user) {
+					user = await ctx.prisma.user.create({
+						data: {
+							address: args.address,
+							nonce: Math.floor(Math.random() * 1000000), // initialize with a random nonce
+						},
+					});
 					return {
-						code: '200',
+						code: '201',
 						success: true,
-						message: `Successfully found user for address ${args.address}`,
+						message: `Successfully created new account for: ${args.address}`,
 						nonce: user.nonce as number,
 					};
-				} catch (error) {
-					return {
-						code: '404',
-						success: false,
-						message: `Error making finding or making user for ${args.address}`,
-					};
 				}
+
+				// Return user's nonce (didn't create new acc)
+				return {
+					code: '200',
+					success: true,
+					message: `Successfully found user for address ${args.address}`,
+					nonce: user.nonce as number,
+				};
+				// } catch (error) {
+				// 	return {
+				// 		code: '404',
+				// 		success: false,
+				// 		message: `Error making finding or making user for ${args.address}`,
+				// 	};
+				// }
 			},
 		});
 	},

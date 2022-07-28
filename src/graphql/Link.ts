@@ -66,7 +66,7 @@ export const LinkQuery = extendType({
 				// use Prisma `count` API to return number of records in the database that match current filter cond.
 				const count = await context.prisma.link.count({ where });
 				// generate unique id for feed query to ensure that for diff args, feed query always generates diff and unique identifiers
-				const id = 'main-feed:${JSON.stringify(args)}';
+				const id = `main-feed:${JSON.stringify(args)}`;
 
 				return {
 					links,

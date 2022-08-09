@@ -78,6 +78,7 @@ interface MutationResponse {
 type Query {
   feed(filter: String, orderBy: [LinkOrderByInput!], skip: Int, take: Int): Feed!
   link(id: Int!): Link
+  user(address: String!): User
 }
 
 enum Sort {

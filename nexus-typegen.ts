@@ -141,6 +141,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     feed: NexusGenRootTypes['Feed']; // Feed!
     link: NexusGenRootTypes['Link'] | null; // Link
+    user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
     address: string; // String!
@@ -204,6 +205,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     feed: 'Feed'
     link: 'Link'
+    user: 'User'
   }
   User: { // field return type name
     address: 'String'
@@ -264,6 +266,9 @@ export interface NexusGenArgTypes {
     }
     link: { // args
       id: number; // Int!
+    }
+    user: { // args
+      address: string; // String!
     }
   }
 }

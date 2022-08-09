@@ -1,4 +1,4 @@
-import { objectType } from 'nexus';
+import { extendType, intArg, nonNull, objectType, stringArg } from 'nexus';
 
 export const User = objectType({
 	name: 'User',
@@ -24,6 +24,22 @@ export const User = objectType({
 			type: 'Link',
 			resolve(parent, __, ctx) {
 				return ctx.prisma.user.findUnique({ where: { address: parent.address } }).votes();
+			},
+		});
+	},
+});
+
+export const UserQuery = extendType({
+	type: 'Query',
+	definition(t) {
+		// Fetch a single user by it's address
+		t.field('user', {
+			type: 'User',
+			args: {
+				address: nonNull(stringArg()),
+			},
+			resolve(_, args, ctx) {
+				return ctx.prisma.user.findUnique({ where: { address: args.address } });
 			},
 		});
 	},
